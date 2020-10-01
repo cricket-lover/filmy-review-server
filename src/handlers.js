@@ -1,6 +1,6 @@
 const database = require('./database');
 const { request } = require('./lib');
-const movieDetails = require('../movieDetails');
+const { movieDetails } = require('../movieDetails');
 const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URL } = require('../config');
 
 const getDetailsOptions = (token) => ({
