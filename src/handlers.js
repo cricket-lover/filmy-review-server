@@ -67,7 +67,8 @@ const getAllMovies = async (req, res) => {
     await database.setMovies(movieDetails);
     details = await database.getAllMovies();
   }
-  res.json(details);
+  console.log(details);
+  res.json([]);
 };
 
 const getMovie = async (req, res) => {
