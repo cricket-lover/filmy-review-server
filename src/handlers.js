@@ -1,6 +1,6 @@
 const database = require('./database');
 const { request } = require('./lib');
-const { CLIENT_ID, CLIENT_SECRET } = require('../config');
+const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URL } = require('../config');
 
 const getDetailsOptions = (token) => ({
   host: 'api.github.com',
@@ -31,7 +31,7 @@ const requestUserDetails = (req, res, token) => {
       req.session.avatar_url = avatar_url;
       database
         .addUser({ id, name: login, img: avatar_url })
-        .then(() => res.redirect('http://localhost:3000'));
+        .then(() => res.redirect(REDIRECT_URL));
     })
     .catch(() => res.status(404).json({ error }));
 };
@@ -55,7 +55,7 @@ const authenticate = (req, res) =>
 
 const checkAuthentication = (req, res, next) => {
   if (req.session.isNew) {
-    return res.redirect(`http://localhost:3000`);
+    return res.redirect(REDIRECT_URL);
   }
   next();
 };

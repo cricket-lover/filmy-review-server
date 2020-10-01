@@ -1,0 +1,22 @@
+language: node_js
+node_js: lts/*
+os:
+  - linux
+env:
+  - NODE_ENV=test
+install:
+  - rm -rf public src package.json package-lock.json
+services:
+  - redis-server
+jobs:
+  include:
+    - stage: Deploy
+      script:
+        - './scripts/build.sh'
+      deploy:
+        provider: heroku
+        api_key:
+          secure: tKvKl8vpFYanRl8H5bUM7fneiYXIm4Th/Jzu9bNvS4rouK50ym0zXLXxU9QZQT9nC8uKrr2obX96zlGksNyK8tT2etMP0Q1agHTkM5a9hbZ2LqjPZVxqAeDvtIHqX0S8DPaAH3KeEou3rvIDOQWto5vQmt1ze4fI8NoBDY4hGE5XPTyihzkPvAnSg28Zhvf9NuCwYRHdjV3Ui+JfcbAjcqDGl6xNbYyU/k6D0ZQ+y8rOSZldShUqoZR2DrU4Y/6sFctVSzkwg6M/8GI+a6g9U+L4GANV8C4JYse+FdEbiCp3zqIIW75PzxfsXAMjskrrODnPLEo1Kg69C0obAbDJVPllUgzc7h5aetwJUcd4fYa6Dc5HDJL7Moih8UF8lRnKGcDMDl21/Rjpy2ZP6zGdn6cs0TMDW4tEuRl50nztfXbsjnVzh0ZiBGSM17SVzwMpTU65Ym7qeayJluPPITg1zmdMVU9b2sI3R/kywx4V9Rn1gUY0S1V3Xur+d6XmPPfajiJXaI3OqggACYTmGNMZwDy49xmAQbV4aGn0nf5P5SNhjOpshRUKnQ03vXp7TFbTnY2RtiBWvo/lCc77eRDzWnJ3/GAFHoqBFlajnOGucc3ojVeo/z91yKdHn52ag62i9bhdcrIg9BpA5ZZNb1PI3npxvG8c3l1yeCLAri4mdLs=
+        skip_cleanup: true
+        app: filmy-review
+        run: restart
