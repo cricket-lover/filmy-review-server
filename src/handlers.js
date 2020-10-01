@@ -1,5 +1,6 @@
 const database = require('./database');
 const { request } = require('./lib');
+const movieDetails = require('../movieDetails');
 const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URL } = require('../config');
 
 const getDetailsOptions = (token) => ({
@@ -61,7 +62,11 @@ const checkAuthentication = (req, res, next) => {
 };
 
 const getAllMovies = async (req, res) => {
-  const details = await database.getAllMovies();
+  let details = await database.getAllMovies();
+  if (!details) {
+    await database.setMovies(movieDetails);
+    details = await database.getAllMovies();
+  }
   res.json(details);
 };
 
@@ -76,7 +81,7 @@ const addReview = async (req, res) => {
   const movieDetails = await database.getAllMovies();
   const details = movieDetails.find((movie) => movie.id === +id);
   details.reviews.unshift({ headline, content });
-  database.setMovies(movieDetails);
+  await database.setMovies(movieDetails);
   res.json(details);
 };
 
