@@ -1,5 +1,6 @@
 const database = require('./database');
 const { request } = require('./lib');
+const { CLIENT_ID, CLIENT_SECRET } = require('../config');
 
 const getDetailsOptions = (token) => ({
   host: 'api.github.com',
@@ -38,8 +39,8 @@ const requestUserDetails = (req, res, token) => {
 const getUserDetails = (req, res) => {
   const { code } = req.query;
   const error = 'Code not found';
-  const clientId = `client_id=${process.env.CLIENT_ID}`;
-  const clientSecret = `client_secret=${process.env.CLIENT_SECRET}`;
+  const clientId = `client_id=${CLIENT_ID}`;
+  const clientSecret = `client_secret=${CLIENT_SECRET}`;
   const query = `${clientId}&${clientSecret}&code=${code}`;
   const tokenOptions = getTokenOptions(query);
   request(tokenOptions)
@@ -49,7 +50,7 @@ const getUserDetails = (req, res) => {
 
 const authenticate = (req, res) =>
   res.redirect(
-    `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}`
+    `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`
   );
 
 const checkAuthentication = (req, res, next) => {
