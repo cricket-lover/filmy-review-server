@@ -18,7 +18,8 @@ app.set('sessionMiddleware', session({ secret: 'SECRET_MSG' }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use((...args) => app.get('sessionMiddleware')(...args));
-app.use(express.static('public'));
+app.use(express.static('build'));
+app.use('/images', express.static('public/images'));
 
 app.get('/api/allMovies', getAllMovies);
 app.get('/api/movie/:id', getMovie);
